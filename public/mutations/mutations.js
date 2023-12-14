@@ -6,7 +6,7 @@
               contact_no
           }
         }`
-    }
+    } 
 
     function update(id,name,contact_no){
         return `mutation{
