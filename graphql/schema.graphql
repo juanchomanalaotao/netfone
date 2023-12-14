@@ -1,0 +1,46 @@
+"A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
+scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
+
+"Indicates what fields are available at the top level of a query operation."
+type Query {
+  contacts : [Contacts]! @paginate(defaultCount: 11)
+  contacts(id: ID @eq): Contacts @find
+}
+
+"Account of a person who utilizes this application."
+type User {
+    "Unique primary key."
+    id: ID!
+
+    "Non-unique name."
+    name: String!
+
+    "Unique email address."
+    email: String!
+
+    "When the email was verified."
+    email_verified_at: DateTime
+
+    "When the account was created."
+    created_at: DateTime!
+
+    "When the account was last updated."
+    updated_at: DateTime!
+}
+
+type Contacts {
+  id: ID!
+  contact_no: String!
+  name: String!
+}
+input ContactInput  {
+  name: String!,
+  contact_no: String!
+}
+type Mutation {
+  createContacts(name: String!,contact_no: String!): Contacts @create
+  viewContacts(id:ID @eq): Contacts @find
+  listContacts : [Contacts!]! @all
+  updateContacts(id:ID,name: String!,contact_no: String!): Contacts @update
+  deleteContacts(id:ID! @whereKey): Contacts @delete
+}
