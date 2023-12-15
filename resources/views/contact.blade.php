@@ -112,6 +112,7 @@
                 },
                 success: function(res) {
                     console.log(res)
+                    getAll()
                 }
             })
         })
@@ -124,7 +125,7 @@
                 },
                 beforeSend: () => {
                     $('.is-loading').show()
-                    $('.tbody').html();
+                    $('.tbody').html("");
                 },
                 success: function(res) {
                     let data = res.data.listContacts
@@ -140,14 +141,7 @@
                         `)
                     })
 
-           
-                    $('.editcn').click(function() {
-                        let child = $(this).parent().parent().children();
-                        let dataID = $(this).attr('data-id');
-                        $(child[0]).html(`<input type="text" class="form-control cname-${dataID}" value="${$(child[0]).text()}"/>`)
-                        $(child[1]).html(`<input type="text" class="form-control cnum-${dataID}" value="${$(child[1]).text()}"/>`)
-                        $(child[2]).html(`<button class="btn btn-success save-edit" data-id="${dataID}">SAVE</button>`)
-                        $('.deletecn').click(function(){
+                    $('.deletecn').click(function(){
                                         $.ajax({
                                         url: window.location.origin + '/graphql',
                                         data: {
@@ -159,6 +153,13 @@
                                         }
                                      })
                                   })
+                    $('.editcn').click(function() {
+                        let child = $(this).parent().parent().children();
+                        let dataID = $(this).attr('data-id');
+                        $(child[0]).html(`<input type="text" class="form-control cname-${dataID}" value="${$(child[0]).text()}"/>`)
+                        $(child[1]).html(`<input type="text" class="form-control cnum-${dataID}" value="${$(child[1]).text()}"/>`)
+                        $(child[2]).html(`<button class="btn btn-success save-edit" data-id="${dataID}">SAVE</button>`)
+                    
                         $('.save-edit').click(function() {
                             let cname = $(`.cname-${dataID}`).val();
                             let cnum = $(`.cnum-${dataID}`).val();
@@ -168,10 +169,11 @@
                                     query: update(dataID, cname, cnum)
                                 },
                                 success: function(res) {
-                                    $(child[0]).html(`<td>${cname}</td>`)
-                                    $(child[1]).html(`<td>${cnum}</td>`)
-                                     $(child[2]).html(`<td><button class="btn btn-primary editcn" data-id="${dataID}">EDIT</button>
-                                      <button class="btn btn-danger deletecn" data-id="${dataID}">DELETE</button></td>`)
+                                    // $(child[0]).html(`<td>${cname}</td>`)
+                                    // $(child[1]).html(`<td>${cnum}</td>`)
+                                    //  $(child[2]).html(`<td><button class="btn btn-primary editcn" data-id="${dataID}">EDIT</button>
+                                    //   <button class="btn btn-danger deletecn" data-id="${dataID}">DELETE</button></td>`)
+                                    getAll()
                               
                                 }
                             })
